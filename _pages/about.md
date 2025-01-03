@@ -6,7 +6,7 @@ subtitle: student, hacker, outdoor lover
 
 profile:
   align: right
-  image: mii_prof.png
+  image: prof.png
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>Vancouver, BC</p>
