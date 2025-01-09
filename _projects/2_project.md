@@ -1,7 +1,7 @@
 ---
 layout: page
-title: project 2
-description: a project with a background image and giscus comments
+title: Line-Following Robot with Bluetooth Control
+description: An IGEN 230 project that makes use of PID control, Bluetooth, and ESP-32's FreeRTOS to handle multithreading.
 img: assets/img/3.jpg
 importance: 2
 category: work

@@ -1,11 +1,12 @@
 ---
 layout: page
-title: project 1
-description: with background image
+title: 3D "Touchable" Augmented-Reality Cubes using a Depth Camera
+
+description: Playing with OpenCV and Intel Realsense camera modules in Python.
 img: assets/img/12.jpg
 importance: 1
-category: work
-related_publications: true
+category: fun
+related_publications: false
 ---
 
 Every project has a beautiful feature showcase page.
