@@ -115,7 +115,7 @@ ninja.data = [{
               window.location.href = "/projects/1_project/";
             },},{id: "projects-line-following-robot-with-bluetooth-control",
           title: 'Line-Following Robot with Bluetooth Control',
-          description: "An IGEN 230 project that makes use of PID control, Bluetooth, and ESP-32&#39;s FreeRTOS to handle multithreading.",
+          description: "An IGEN 230 project that makes use of PID control, Bluetooth, and multithreading with the help of FreeRTOS.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_project/";
             },},{
