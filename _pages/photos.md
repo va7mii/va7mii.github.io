@@ -1,6 +1,6 @@
 ---
 layout: page
-title: photogallery
+title: Photos
 permalink: /photos/
 description: Some photos I have taken at work and in my free time!
 nav: true
