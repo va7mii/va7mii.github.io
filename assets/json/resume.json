@@ -1,200 +1,235 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
-    "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "name": "Kevin Zhang",
+    "label": "Integrated Engineering Student",
+    "email": "kzhang47@student.ubc.ca",
+    "phone": "+1 604-728-0301",
+    "url": "https://www.linkedin.com/in/kzhang47",
+    "summary": "Undergraduate Integrated Engineering student at UBC with hands‑on experience in embedded systems, PCB design, and software-defined radio through coursework, research, and student design teams.",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "city": "Vancouver",
+      "region": "BC",
+      "countryCode": "CA"
     },
     "profiles": [
       {
-        "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "network": "LinkedIn",
+        "username": "kzhang47",
+        "url": "https://www.linkedin.com/in/kzhang47"
+      },
+      {
+        "network": "GitHub",
+        "username": "va7mii",
+        "url": "https://github.com/va7mii"
       }
     ]
   },
-  "work": [
+  "skills": [
     {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity"]
-    }
-  ],
-  "volunteer": [
+      "name": "Programming",
+      "keywords": [
+        "Python",
+        "Java",
+        "C/C++",
+        "Embedded C",
+        "FreeRTOS",
+        "Linux"
+      ]
+    },
     {
-      "organization": "People's Climate March",
-      "location": "Zurich, Switzerland",
-      "position": "Lead Organizer",
-      "url": "https://example.com",
-      "startDate": "2014-04-01",
-      "endDate": "2015-07-01",
-      "summary": "Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.",
-      "highlights": ["Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march.", "Men of the year 2014 by Time magazine"]
+      "name": "Computer‑Aided Tools",
+      "keywords": [
+        "Visual Studio",
+        "LTSpice",
+        "Git",
+        "SolidWorks",
+        "Protocase Designer",
+        "Altium Designer"
+      ]
+    },
+    {
+      "name": "Lab & Test Equipment",
+      "keywords": [
+        "Oscilloscope",
+        "Multimeter",
+        "Spectrum Analyzer",
+        "Software‑Defined Radio",
+        "3D Printing (FDM & SLA)"
+      ]
+    },
+    {
+      "name": "Certifications",
+      "keywords": [
+        "Amateur Radio Operator – Advanced (VA7MII)"
+      ]
     }
   ],
   "education": [
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "location": "Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Software Development",
-      "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "10",
-      "courses": ["Theory of Relativity"]
-    }
-  ],
-  "awards": [
-    {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-location-dot"
-    },
-    {
-      "name": "Quantum Computing",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-tag"
-    },
-    {
-      "name": "Quantum Information",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-envelope"
-    },
-    {
-      "name": "Quantum Cryptography",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-hashtag"
-    },
-    {
-      "name": "Quantum Communication",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-calendar"
-    },
-    {
-      "name": "Quantum Teleportation",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-clipboard-check"
-    }
-  ],
-  "publications": [
-    {
-      "name": "Zur Elektrody/namik bewegter Körper",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-06-30",
-      "url": "https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies",
-      "summary": "It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source."
-    },
-    {
-      "name": "Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-03-18",
-      "url": "https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt",
-      "summary": "In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921."
-    },
-    {
-      "name": "Die Grundlage der allgemeinen Relativitätstheorie",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1916-03-20",
-      "url": "https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie",
-      "summary": "The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914)."
-    }
-  ],
-  "skills": [
-    {
-      "name": "Physics",
-      "level": "Master",
-      "icon": "fa-solid fa-hashtag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
+      "institution": "University of British Columbia",
+      "url": "https://www.ubc.ca",
+      "area": "Integrated Engineering (Computer & Mechanical focus)",
+      "studyType": "Bachelor of Applied Science",
+      "startDate": "2023-09",
+      "endDate": "2028-05",
+      "location": "Vancouver, BC",
+      "courses": [
+        "CPEN 312 – Digital Systems and Microcomputers (in progress)",
+        "MATH 220 – Mathematical Proof (93%)",
+        "MATH 257 – Partial Differential Equations (85%)"
       ]
-    }
-  ],
-  "languages": [
-    {
-      "language": "German",
-      "fluency": "Native speaker",
-      "icon": ""
-    },
-    {
-      "language": "English",
-      "fluency": "Fluent",
-      "icon": ""
-    }
-  ],
-  "interests": [
-    {
-      "name": "Physics",
-      "icon": "fa-solid fa-tag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
-      ]
-    }
-  ],
-  "references": [
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-laptop",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
-    },
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-thumbtack",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
     }
   ],
   "projects": [
     {
-      "name": "Quantum Computing",
-      "summary": "Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.",
-      "highlights": ["Quantum Teleportation", "Quantum Cryptography"],
-      "startDate": "2018-01-01",
-      "endDate": "2018-01-01",
-      "url": "https://example.com"
+      "name": "6502 Breadboard Computer",
+      "description": "Replicated Ben Eater’s 65C02 computer on breadboards, built a 555‑timer clock module, used an Arduino Mega to monitor bus signals, and began designing a DIY EEPROM programmer.",
+      "keywords": [
+        "Embedded",
+        "Electronics",
+        "Firmware"
+      ],
+      "start": "2024-02"
+    },
+    {
+      "name": "Bluetooth‑Controlled Line‑Following Robot",
+      "description": "Designed IR reflectance sensor array, 3D‑printed mounts, and implemented FreeRTOS‑based ESP32 firmware for Bluetooth telemetry and motor control.",
+      "keywords": [
+        "Robotics",
+        "ESP32",
+        "FreeRTOS"
+      ],
+      "start": "2024-02"
+    },
+    {
+      "name": "ALEASAT Antenna Deployer PCB (ESA Fly Your Satellite!)",
+      "description": "Performed vibration and functional testing of satellite antenna‑deployer PCB in Belgium and presented resonance search data to ESA engineers for next‑rev design decisions.",
+      "keywords": [
+        "PCB Design",
+        "Testing",
+        "Satellites"
+      ],
+      "start": "2024-02"
+    },
+    {
+      "name": "3Describe — “Touchable” AR Cubes",
+      "description": "Used Intel RealSense D435 depth camera and MediaPipe to detect hand and cube position; rendered cubes with OpenCV and applied collision logic to trigger haptic feedback.",
+      "keywords": [
+        "Computer Vision",
+        "Augmented Reality",
+        "OpenCV"
+      ],
+      "start": "2023-01"
+    },
+    {
+      "name": "PlasRov Micro‑plastics ROV",
+      "description": "Built a 3D‑printed rover combining NIR spectroscopy and TensorFlow‑based object detection to identify microplastics; showcased at regional science fair.",
+      "keywords": [
+        "TensorFlow",
+        "Spectroscopy",
+        "3D Printing"
+      ],
+      "start": "2021-09",
+      "end": "2022-04"
+    }
+  ],
+  "work": [
+    {
+      "name": "BC Cancer Research Center – Interactive Oncology",
+      "location": "Vancouver, BC",
+      "position": "Undergraduate Research Volunteer",
+      "startDate": "2024-05",
+      "endDate": "2024-08",
+      "highlights": [
+        "Located EMI sources in medical device using oscilloscope and wire probe.",
+        "Designed aluminum shielding enclosure in Protocase Designer, balancing cost, rigidity, and conductivity constraints while integrating with SolidWorks assembly model."
+      ]
+    },
+    {
+      "name": "University of British Columbia",
+      "location": "Vancouver, BC",
+      "position": "Undergraduate Teaching Assistant – APSC 160",
+      "startDate": "2024-09",
+      "endDate": "Present",
+      "highlights": [
+        "Facilitate two weekly lab sections (~30 students) and invigilate quizzes.",
+        "Assess 30 code submissions per week, providing feedback on style and correctness.",
+        "Promote UBC Orbit design team through short recruitment pitches."
+      ]
+    },
+    {
+      "name": "UBC Orbit Satellite Design Team",
+      "location": "Vancouver, BC",
+      "position": "Radio Communications Firmware Developer",
+      "startDate": "2023-09",
+      "endDate": "Present",
+      "highlights": [
+        "Developed FM receiver flowgraph in GNU Radio and verified C1110 transceiver TX.",
+        "Characterized Ettus B210 SDR receiver sensitivity with spectrum analyzer.",
+        "Designed antenna‑deployer PCB in Altium Designer."
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Anime Revolution",
+      "position": "Operations Volunteer",
+      "startDate": "2024-08",
+      "endDate": "2024-08",
+      "summary": "Managed attendee flow at concerts and exhibition hall; guided guests and ensured rule compliance."
+    },
+    {
+      "organization": "Greater Vancouver Regional Science Fair",
+      "position": "Project Judge",
+      "startDate": "2024-03",
+      "endDate": "2024-03",
+      "summary": "Evaluated 20+ high‑school science projects, provided feedback, and participated in ranking deliberations."
+    },
+    {
+      "organization": "888 Avengers Air Cadet Squadron",
+      "position": "Aerospace Instructor",
+      "startDate": "2022-09",
+      "endDate": "2023-05",
+      "summary": "Taught aviation & aerospace topics to 20 cadets and helped squadron transition back to in‑person training post‑COVID."
+    }
+  ],
+  "awards": [
+    {
+      "title": "Engineers and Geoscientists BC Entrance Scholarship",
+      "date": "2023"
+    },
+    {
+      "title": "Royal Canadian Legion Medal of Excellence",
+      "date": "2022"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Hobbies",
+      "keywords": [
+        "3D Printing",
+        "Model‑kit Painting",
+        "Learning to Code",
+        "Console Modding"
+      ]
+    },
+    {
+      "name": "Sports",
+      "keywords": [
+        "Stand‑Up Paddleboarding",
+        "Windsurfing",
+        "Snowboarding",
+        "Cycling",
+        "Swimming"
+      ]
+    },
+    {
+      "name": "Music",
+      "keywords": [
+        "Piano",
+        "Tenor Saxophone",
+        "Guitar"
+      ]
     }
   ]
 }
