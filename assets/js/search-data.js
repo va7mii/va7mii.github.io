@@ -65,37 +65,26 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-sup",
+            },{id: "post-my-tips-on-passing-casi-level-1",
       
-        title: "Sup",
+        title: "My Tips on Passing CASI Level 1",
       
-      description: "",
+      description: "Things I noticed while doing my CASI L1 (and L2)",
       section: "Posts",
       handler: () => {
         
-          window.location.href = "/blog/2024/sup/";
+          window.location.href = "/blog/2025/My-tips-on-passing-CASI-Level-1/";
         
       },
-    },{id: "post-snowboarding",
+    },{id: "post-esa-fly-your-sat-test-opportunity-at-belgium",
       
-        title: "Snowboarding",
+        title: "ESA Fly Your Sat! Test Opportunity at Belgium",
       
-      description: "",
+      description: "Redu and Libramont &gt; Brussels",
       section: "Posts",
       handler: () => {
         
-          window.location.href = "/blog/2024/snowboarding/";
-        
-      },
-    },{id: "post-belgium",
-      
-        title: "Belgium",
-      
-      description: "",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2023/belgium/";
+          window.location.href = "/blog/2024/belgium/";
         
       },
     },{id: "news-a-simple-inline-announcement",
