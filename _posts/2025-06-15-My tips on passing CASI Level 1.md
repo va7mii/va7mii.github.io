@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My Tips on Passing CASI Level 1
-date: 2025-06-16 11:39:00
+date: 2025-06-15 11:39:00
 tags: sports
 description: Things I noticed while doing my CASI L1 (and L2)
 mermaid:

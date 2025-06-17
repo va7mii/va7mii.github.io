@@ -86,8 +86,8 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: Kevin's Kvetches # blog_name will be displayed in your blog page
-blog_description: Thoughts on engineering and everything else
+#blog_name: Kevin's Kvetches # blog_name will be displayed in your blog page
+#blog_description: Things I have been working on!
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
