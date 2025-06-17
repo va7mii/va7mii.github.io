@@ -23,4 +23,4 @@ I currently work on projects to learn about robotics and generative AI. In addit
 
 I am also currently as a software-defined radio developer for [UBC Orbit Satellite Design Team](https://www.ubcorbit.com/). We are currently developing a CubeSat, with Simon Fraser University, as part of [European Space Agency's Fly Your Sat! program](https://www.esa.int/Education/CubeSats_-_Fly_Your_Satellite/New_missions_selected_for_the_fourth_edition_of_the_Fly_Your_Satellite!_programme), which will be launched in 2025. Our satellite, ALEASAT, will be serve to take photos in space and thus to assist amateur radio operators (like me) with satellite imagery for disaster relief. 
 
-When I'm not studying, I like to snowboard at Cypress and Whistler and I am also currently training to get my CASI Level 1. I also spend time doing cycling, bouldering, and swimming.
+When I'm not studying, I like to snowboard at Cypress and Whistler. Currently a Level 1 Snowboard instructor and training to obtain my Level 2 and Park 1. I also spend time doing cycling, bouldering, and swimming.
