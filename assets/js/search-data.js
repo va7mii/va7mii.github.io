@@ -11,7 +11,7 @@ ninja.data = [{
     },
   },{id: "nav-projects",
           title: "Projects",
-          description: "A growing collection of your cool projects.",
+          description: "",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-talks",
           title: "Talks",
-          description: "Materials for courses you taught. Replace this text with your description.",
+          description: "",
           section: "Navigation",
           handler: () => {
             window.location.href = "/talks/";
@@ -101,6 +101,11 @@ ninja.data = [{
           description: "Building an ESP32‑powered line‑following robot that runs FreeRTOS for real‑time motor control and streams telemetry over Bluetooth to a custom Python dashboard.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/line-robotx/";
+            },},{id: "projects-plasrov",
+          title: 'PlasRov',
+          description: "Using computer vision and near-infrared spectroscopy to detect microplastics.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/plasrov/";
             },},{id: "projects-project-5",
           title: 'project 5',
           description: "a project with a background image",
