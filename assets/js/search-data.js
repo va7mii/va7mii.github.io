@@ -96,9 +96,14 @@ ninja.data = [{
           description: "Creating Touchable AR objects using depth camera",
           section: "Projects",handler: () => {
               window.location.href = "/projects/3describe/";
-            },},{id: "projects-bluetooth-controlled-n-line-follow-robot",
-          title: 'Bluetooth‑Controlled \n Line‑Follow Robot',
-          description: "Building an ESP32‑powered line‑following robot that runs FreeRTOS for real‑time motor control and streams telemetry over Bluetooth to a custom Python dashboard.",
+            },},{id: "projects-object-detection-using-esp-cam",
+          title: 'Object Detection Using ESP-Cam',
+          description: "Sending ESP-32 video to laptop to run YOLO models.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/espcam/";
+            },},{id: "projects-esp-32-line-follower",
+          title: 'ESP-32 Line Follower',
+          description: "Line following robot + FreeRTOS + Bluetooth",
           section: "Projects",handler: () => {
               window.location.href = "/projects/line-robotx/";
             },},{id: "projects-plasrov",
@@ -106,11 +111,6 @@ ninja.data = [{
           description: "Using computer vision and near-infrared spectroscopy to detect microplastics.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/plasrov/";
-            },},{id: "projects-project-5",
-          title: 'project 5',
-          description: "a project with a background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/test1/";
             },},{
         id: 'social-linkedin',
         title: 'LinkedIn',
