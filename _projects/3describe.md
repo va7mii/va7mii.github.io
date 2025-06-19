@@ -2,7 +2,7 @@
 layout: page
 title: 3Describe
 description: Creating Touchable AR objects using depth camera
-img: assets/img/3describe.jpg
+img: assets/img/projects/3describe/3describe.jpg
 importance: 3
 category: fun
 ---
