@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import config from "@/config";
+
+// Replace public/assets/pdf/Resume_Kevin_Zhang.pdf to update the CV.
+const pdf = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}assets/pdf/Resume_Kevin_Zhang.pdf`;
+---
+
+<Layout title={`CV | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb />
+  <Main pageTitle="CV">
+    <p class="mb-4">
+      <a
+        href={pdf}
+        class="text-accent underline decoration-dashed underline-offset-4"
+        download>Download PDF</a
+      >
+    </p>
+    <object
+      data={pdf}
+      type="application/pdf"
+      class="border-border h-[80vh] w-full rounded-lg border"
+      aria-label="Kevin Zhang's CV"
+    >
+      <p>
+        Your browser can't display the PDF here.
+        <a href={pdf} class="text-accent underline">Open it instead.</a>
+      </p>
+    </object>
+  </Main>
+  <Footer />
+</Layout>
