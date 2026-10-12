@@ -13,6 +13,8 @@ pnpm build      # type-check, build to dist/, build the search index
 pnpm preview    # serve dist/
 ```
 
+For a step-by-step guide to adding posts, projects and pages, changing the icon, and ideas for more dynamic features, see [docs/EDITING.md](docs/EDITING.md).
+
 ## Where things live
 
 | What                     | Where                                      |
