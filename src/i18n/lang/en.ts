@@ -7,6 +7,7 @@ export default {
     projects: "Projects",
     talks: "Talks",
     cv: "CV",
+    photos: "Photos",
     tags: "Tags",
     about: "About",
     archives: "Archives",

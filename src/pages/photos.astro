@@ -1,0 +1,323 @@
+---
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import { albums } from "@/data/albums";
+import config from "@/config";
+
+const files = import.meta.glob<ImageMetadata>(
+  "/src/assets/**/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}",
+  { eager: true, import: "default" }
+);
+
+const fileName = (path: string) =>
+  path
+    .split("/")
+    .pop()!
+    .replace(/\.[^.]+$/, "")
+    .replace(/^\d+[-_ ]*/, "")
+    .replace(/[-_]+/g, " ");
+
+const data = await Promise.all(
+  albums.map(async album => {
+    const prefix = `/src/assets/${album.folder.replace(/^\/|\/$/g, "")}/`;
+    const paths = Object.keys(files)
+      .filter(p => p.startsWith(prefix))
+      .sort();
+    const photos = await Promise.all(
+      paths.map(async path => {
+        const src = files[path];
+        const [thumb, full] = await Promise.all([
+          getImage({ src, width: Math.min(src.width, 600), format: "webp" }),
+          getImage({ src, width: Math.min(src.width, 1600), format: "webp" }),
+        ]);
+        return {
+          thumb: thumb.src,
+          full: full.src,
+          alt: fileName(path),
+        };
+      })
+    );
+    return { ...album, photos };
+  })
+);
+const visible = data.filter(a => a.photos.length > 0);
+---
+
+<Layout title={`Photos | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb />
+  <Main
+    pageTitle="Photos"
+    pageDesc="Hover a pile to fan it out, click to open the album."
+  >
+    <ul class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        visible.map(album => (
+          <li>
+            <button
+              type="button"
+              class="cluster group focus-outline block w-full text-start"
+              data-album={album.slug}
+              aria-controls={`album-${album.slug}`}
+              aria-expanded="false"
+            >
+              <span class="stack relative block aspect-[4/3]">
+                {album.photos.slice(0, 4).map((photo, i, arr) => (
+                  <img
+                    src={photo.thumb}
+                    alt=""
+                    loading="lazy"
+                    style={`--i: ${i}; --n: ${arr.length}; z-index: ${arr.length - i}`}
+                    class="border-background absolute inset-0 m-auto h-[80%] w-[80%] rounded-md border-4 object-cover shadow-lg"
+                  />
+                ))}
+              </span>
+              <span class="group-hover:text-accent mt-3 block text-lg font-semibold">
+                {album.title}
+              </span>
+              <span class="text-muted-foreground block text-sm">
+                {album.photos.length}{" "}
+                {album.photos.length === 1 ? "photo" : "photos"}
+                {album.description && ` · ${album.description}`}
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      visible.map(album => (
+        <section
+          id={`album-${album.slug}`}
+          class="album-panel border-border mt-12 hidden scroll-mt-8 border-t pt-8"
+          aria-label={album.title}
+        >
+          <div class="flex items-baseline justify-between gap-4">
+            <h2 class="text-2xl font-semibold">{album.title}</h2>
+            <button
+              type="button"
+              class="close-album hover:text-accent text-sm underline decoration-dashed underline-offset-4"
+            >
+              Close
+            </button>
+          </div>
+          {album.description && (
+            <p class="text-muted-foreground mt-1">{album.description}</p>
+          )}
+          <ul class="mt-6 columns-2 gap-3 sm:columns-3">
+            {album.photos.map((photo, i) => (
+              <li class="mb-3 break-inside-avoid">
+                <button
+                  type="button"
+                  class="tile focus-outline block w-full overflow-hidden rounded-md"
+                  style={`--d: ${Math.min(i, 12) * 40}ms`}
+                  data-full={photo.full}
+                  data-alt={photo.alt}
+                  aria-label={`View ${photo.alt}`}
+                >
+                  <img
+                    src={photo.thumb}
+                    alt={photo.alt}
+                    loading="lazy"
+                    class="w-full transition-transform duration-300 hover:scale-105"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    {
+      visible.length === 0 && (
+        <p>No photos yet. See src/data/albums.ts to add an album.</p>
+      )
+    }
+  </Main>
+
+  <dialog
+    id="lightbox"
+    class="m-auto max-h-[95vh] max-w-[95vw] bg-transparent p-0 backdrop:bg-black/85"
+    aria-label="Photo viewer"
+  >
+    <figure class="relative">
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="max-h-[85vh] max-w-[95vw] rounded-md object-contain"
+      />
+      <figcaption
+        id="lightbox-caption"
+        class="mt-2 text-center text-sm text-white/80 capitalize"
+      >
+      </figcaption>
+      <button
+        type="button"
+        data-step="-1"
+        class="lb-nav absolute top-1/2 left-2 -translate-y-1/2"
+        aria-label="Previous photo">‹</button
+      >
+      <button
+        type="button"
+        data-step="1"
+        class="lb-nav absolute top-1/2 right-2 -translate-y-1/2"
+        aria-label="Next photo">›</button
+      >
+      <button
+        type="button"
+        id="lightbox-close"
+        class="lb-nav absolute top-2 right-2"
+        aria-label="Close">×</button
+      >
+    </figure>
+  </dialog>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* Cluster: a loose pile that fans out on hover/focus */
+  .stack img {
+    transition:
+      transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.3s;
+    transform: rotate(calc((var(--i) - (var(--n) - 1) / 2) * 5deg))
+      translate(calc(var(--i) * 4px), calc(var(--i) * -3px));
+  }
+  .cluster:hover .stack img,
+  .cluster:focus-visible .stack img,
+  .cluster[aria-expanded="true"] .stack img {
+    transform: rotate(calc((var(--i) - (var(--n) - 1) / 2) * 12deg))
+      translate(
+        calc((var(--i) - (var(--n) - 1) / 2) * 24%),
+        calc(var(--i) * -2% + 4%)
+      )
+      scale(0.82);
+  }
+  .cluster[aria-expanded="true"] .stack img {
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+
+  /* Album panel: tiles scatter in from the pile */
+  .album-panel.is-open {
+    display: block;
+  }
+  .album-panel.is-open .tile {
+    animation: gather 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: var(--d);
+  }
+  @keyframes gather {
+    from {
+      opacity: 0;
+      transform: translateY(-24px) rotate(-6deg) scale(0.85);
+    }
+  }
+
+  .lb-nav {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: rgb(0 0 0 / 0.55);
+    color: white;
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+  .lb-nav:hover {
+    background: rgb(0 0 0 / 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stack img,
+    .album-panel.is-open .tile {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initPhotos() {
+    const clusters = document.querySelectorAll<HTMLButtonElement>(".cluster");
+    const panels = document.querySelectorAll<HTMLElement>(".album-panel");
+    const dialog = document.querySelector<HTMLDialogElement>("#lightbox");
+    const img = document.querySelector<HTMLImageElement>("#lightbox-img");
+    const caption = document.querySelector<HTMLElement>("#lightbox-caption");
+    if (!dialog || !img || !caption) return;
+
+    const closeAll = () => {
+      panels.forEach(p => p.classList.remove("is-open"));
+      clusters.forEach(c => c.setAttribute("aria-expanded", "false"));
+    };
+
+    clusters.forEach(cluster => {
+      cluster.addEventListener("click", () => {
+        const panel = document.getElementById(`album-${cluster.dataset.album}`);
+        const wasOpen = cluster.getAttribute("aria-expanded") === "true";
+        closeAll();
+        if (!panel || wasOpen) return;
+        panel.classList.add("is-open");
+        cluster.setAttribute("aria-expanded", "true");
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    panels.forEach(panel =>
+      panel.querySelector(".close-album")?.addEventListener("click", () => {
+        const slug = panel.id.replace("album-", "");
+        closeAll();
+        document
+          .querySelector<HTMLElement>(`.cluster[data-album="${slug}"]`)
+          ?.focus();
+      })
+    );
+
+    let tiles: HTMLButtonElement[] = [];
+    let index = 0;
+    const show = (i: number) => {
+      index = (i + tiles.length) % tiles.length;
+      const tile = tiles[index];
+      img.src = tile.dataset.full ?? "";
+      img.alt = tile.dataset.alt ?? "";
+      caption.textContent = `${tile.dataset.alt ?? ""} (${index + 1}/${tiles.length})`;
+    };
+
+    document.querySelectorAll<HTMLButtonElement>(".tile").forEach(tile => {
+      tile.addEventListener("click", () => {
+        tiles = Array.from(
+          tile.closest(".album-panel")?.querySelectorAll(".tile") ?? []
+        );
+        show(tiles.indexOf(tile));
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelectorAll<HTMLButtonElement>("[data-step]").forEach(btn =>
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        show(index + Number(btn.dataset.step));
+      })
+    );
+    dialog
+      .querySelector("#lightbox-close")
+      ?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", e => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("keydown", e => {
+      if (e.key === "ArrowRight") show(index + 1);
+      if (e.key === "ArrowLeft") show(index - 1);
+    });
+  }
+
+  document.addEventListener("astro:page-load", initPhotos);
+</script>
