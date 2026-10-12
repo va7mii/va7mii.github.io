@@ -8,6 +8,8 @@ import Layout from "@/layouts/Layout.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import { getSortedProjects } from "@/utils/getSortedProjects";
 import profileImage from "@/assets/images/prof.png";
+import Interests from "@/components/Interests.astro";
+import { interests } from "@/data/interests";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
@@ -46,14 +48,23 @@ const projects = getSortedProjects(await getCollection("projects"));
         <h1 class="my-4 text-4xl font-bold sm:my-6 sm:text-5xl">
           Hi, I'm Kevin
         </h1>
-        <p class="text-muted-foreground mb-4 italic">
-          student, hacker, outdoor lover
+        <p class="min-h-[4.5em] text-lg sm:min-h-[3em] sm:text-xl">
+          I'm exploring how
+          <span class="sr-only">{interests.map(i => i.phrase).join("; ")}.</span
+          >
+          <span
+            id="typed"
+            aria-hidden="true"
+            class="text-accent font-semibold"
+            data-phrases={JSON.stringify(interests.map(i => i.phrase))}
+            >{interests[0].phrase}</span
+          ><span id="caret" class="text-accent" aria-hidden="true">▍</span>
         </p>
-        <p>
-          I study integrated engineering (computer and mechanical) at UBC and
-          build robots, computer vision, and generative AI projects. I write
-          software-defined radio code for UBC Orbit's ALEASAT CubeSat, go by the
-          callsign VA7MII, and teach snowboarding at Cypress and Whistler.
+        <p class="mt-4">
+          I study integrated engineering (computer and mechanical) at UBC. I
+          write software-defined radio code for UBC Orbit's ALEASAT CubeSat, go
+          by the callsign VA7MII, and teach snowboarding at Cypress and
+          Whistler.
         </p>
         <p class="mt-2">
           More
@@ -103,6 +114,8 @@ const projects = getSortedProjects(await getCollection("projects"));
         class="w-40 self-center rounded-lg sm:mt-8 sm:w-56 sm:self-start"
       />
     </section>
+
+    <Interests />
 
     {
       projects.length > 0 && (
@@ -173,7 +186,100 @@ const projects = getSortedProjects(await getCollection("projects"));
   <Footer />
 </Layout>
 
+<style>
+  #caret {
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #caret {
+      display: none;
+    }
+  }
+</style>
+
 <script>
+  // Typing animation for the hero line. Hovering or focusing an interest card
+  // jumps to that card's phrase; cards highlight while their phrase shows.
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  function startTyping() {
+    clearTimeout(timer);
+    const el = document.querySelector<HTMLElement>("#typed");
+    if (!el) return;
+    const phrases: string[] = JSON.parse(el.dataset.phrases ?? "[]");
+    const cards = document.querySelectorAll<HTMLElement>(".interest-card");
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (phrases.length === 0) return;
+
+    let index = 0;
+    let chars = phrases[0].length;
+    let deleting = false;
+    let pinned = false;
+
+    const highlight = () =>
+      cards.forEach(card =>
+        card.classList.toggle("is-active", Number(card.dataset.topic) === index)
+      );
+
+    const show = (i: number) => {
+      index = i;
+      chars = phrases[i].length;
+      deleting = false;
+      el.textContent = phrases[i];
+      highlight();
+    };
+
+    cards.forEach(card => {
+      const pick = () => {
+        pinned = true;
+        clearTimeout(timer);
+        show(Number(card.dataset.topic));
+      };
+      const release = () => {
+        pinned = false;
+        clearTimeout(timer);
+        if (!reduced) timer = setTimeout(tick, 2500);
+      };
+      card.addEventListener("mouseenter", pick);
+      card.addEventListener("focus", pick);
+      card.addEventListener("click", pick);
+      card.addEventListener("mouseleave", release);
+      card.addEventListener("blur", release);
+    });
+
+    highlight();
+    if (reduced) return;
+
+    function tick() {
+      if (pinned) return;
+      const phrase = phrases[index];
+      if (!deleting && chars === phrase.length) {
+        deleting = true;
+        timer = setTimeout(tick, 2200);
+        return;
+      }
+      if (deleting && chars === 0) {
+        deleting = false;
+        index = (index + 1) % phrases.length;
+        highlight();
+      }
+      chars += deleting ? -1 : 1;
+      el!.textContent = phrases[index].slice(0, chars);
+      timer = setTimeout(tick, deleting ? 25 : 55);
+    }
+
+    timer = setTimeout(tick, 2200);
+  }
+
+  document.addEventListener("astro:page-load", startTyping);
+
   document.addEventListener("astro:page-load", () => {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
       ?.dataset;
