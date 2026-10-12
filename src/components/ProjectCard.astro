@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
+
+type Props = CollectionEntry<"projects">;
+
+const { id, data } = Astro.props;
+const href = getRelativeLocaleUrl(
+  Astro.currentLocale ?? "en",
+  `projects/${id}`
+);
+---
+
+<li>
+  <a
+    href={href}
+    class="group border-border hover:border-accent block h-full overflow-hidden rounded-lg border transition-colors"
+  >
+    {
+      data.cover && (
+        <Image
+          src={data.cover}
+          alt=""
+          width={640}
+          class="aspect-video w-full object-cover transition-transform group-hover:scale-[1.02]"
+        />
+      )
+    }
+    <div class="p-4">
+      <h3 class="text-accent text-lg font-medium group-hover:underline">
+        {data.title}
+      </h3>
+      <p class="mt-1 text-sm">{data.description}</p>
+    </div>
+  </a>
+</li>

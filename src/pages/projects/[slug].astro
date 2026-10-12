@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import { getSortedProjects } from "@/utils/getSortedProjects";
+import config from "@/config";
+
+export const getStaticPaths = (async () => {
+  const projects = getSortedProjects(await getCollection("projects"));
+  return projects.map(project => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, cover, tags } = project.data;
+---
+
+<Layout
+  title={`${title} | ${config.site.title}`}
+  description={description}
+  ogImage={cover?.src}
+>
+  <Header />
+  <Breadcrumb />
+  <Main pageTitle={title} pageDesc={description} class="app-prose">
+    <article data-pagefind-body>
+      {
+        tags.length > 0 && (
+          <p class="not-prose text-muted-foreground -mt-4 mb-6 text-sm">
+            {tags.map(tag => `#${tag}`).join("  ")}
+          </p>
+        )
+      }
+      {
+        cover && (
+          <Image src={cover} alt="" width={1024} class="mb-8 rounded-lg" />
+        )
+      }
+      <Content />
+    </article>
+  </Main>
+  <Footer />
+</Layout>
