@@ -1,0 +1,444 @@
+---
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import { hobbies } from "@/data/hobbies";
+import config from "@/config";
+
+const files = import.meta.glob<ImageMetadata>(
+  "/src/assets/**/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}",
+  { eager: true, import: "default" }
+);
+
+const caption = (path: string) =>
+  path
+    .split("/")
+    .pop()!
+    .replace(/\.[^.]+$/, "")
+    .replace(/^\d+[-_ ]*/, "")
+    .replace(/[-_]+/g, " ");
+
+const groups = (
+  await Promise.all(
+    hobbies.map(async hobby => {
+      const prefixes = hobby.folders.map(
+        f => `/src/assets/${f.replace(/^\/|\/$/g, "")}/`
+      );
+      const paths = Object.keys(files)
+        .filter(p => prefixes.some(prefix => p.startsWith(prefix)))
+        .sort();
+      const photos = await Promise.all(
+        paths.map(async path => {
+          const src = files[path];
+          const [thumb, full] = await Promise.all([
+            getImage({ src, width: Math.min(src.width, 360), format: "webp" }),
+            getImage({ src, width: Math.min(src.width, 1600), format: "webp" }),
+          ]);
+          return { thumb: thumb.src, full: full.src, alt: caption(path) };
+        })
+      );
+      return { ...hobby, photos };
+    })
+  )
+).filter(g => g.photos.length > 0);
+
+// Deterministic pseudo-random values so the cloud looks the same every build.
+const rand = (seed: number) => {
+  const x = Math.sin(seed * 9301 + 49297) * 233280;
+  return x - Math.floor(x);
+};
+---
+
+<Layout title={`Photos | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb />
+  <Main
+    pageTitle="Photos"
+    pageDesc="What I get up to away from the desk. Pick a hobby to pull its photos together."
+  >
+    <div class="flex flex-wrap gap-2" role="toolbar" aria-label="Hobbies">
+      <button type="button" class="chip" data-filter="all" aria-pressed="true">
+        All
+      </button>
+      {
+        groups.map(g => (
+          <button
+            type="button"
+            class="chip"
+            data-filter={g.slug}
+            aria-pressed="false"
+          >
+            {g.title}
+            <span class="opacity-60">{g.photos.length}</span>
+          </button>
+        ))
+      }
+    </div>
+    <p id="cloud-desc" class="text-muted-foreground mt-3 min-h-[1.5em] text-sm">
+    </p>
+
+    <div id="cloud" class="relative mt-4 overflow-hidden" data-mode="all">
+      {
+        groups.map(g => (
+          <button
+            type="button"
+            class="cloud-label"
+            data-group={g.slug}
+            data-desc={g.description ?? ""}
+          >
+            {g.title}
+          </button>
+        ))
+      }
+      {
+        groups.flatMap((g, gi) =>
+          g.photos.map((photo, j) => {
+            const seed = gi * 100 + j;
+            return (
+              <button
+                type="button"
+                class="cloud-photo focus-outline"
+                data-group={g.slug}
+                data-index={j}
+                data-full={photo.full}
+                data-alt={photo.alt}
+                aria-label={`${g.title}: ${photo.alt}`}
+                style={`--rot: ${(rand(seed) * 16 - 8).toFixed(1)}deg; --size: ${(0.8 + rand(seed + 7) * 0.45).toFixed(2)}; --dur: ${(5 + rand(seed + 3) * 4).toFixed(1)}s; --delay: -${(rand(seed + 5) * 6).toFixed(1)}s`}
+              >
+                <img src={photo.thumb} alt="" loading="lazy" />
+              </button>
+            );
+          })
+        )
+      }
+    </div>
+
+    {
+      groups.length === 0 && (
+        <p>No photos yet. See src/data/hobbies.ts to add some.</p>
+      )
+    }
+  </Main>
+
+  <dialog
+    id="lightbox"
+    class="m-auto max-h-[95vh] max-w-[95vw] bg-transparent p-0 backdrop:bg-black/85"
+    aria-label="Photo viewer"
+  >
+    <figure class="relative">
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="max-h-[85vh] max-w-[95vw] rounded-md object-contain"
+      />
+      <figcaption
+        id="lightbox-caption"
+        class="mt-2 text-center text-sm text-white/80 capitalize"
+      >
+      </figcaption>
+      <button
+        type="button"
+        data-step="-1"
+        class="lb-nav absolute top-1/2 left-2 -translate-y-1/2"
+        aria-label="Previous photo">‹</button
+      >
+      <button
+        type="button"
+        data-step="1"
+        class="lb-nav absolute top-1/2 right-2 -translate-y-1/2"
+        aria-label="Next photo">›</button
+      >
+      <button
+        type="button"
+        id="lightbox-close"
+        class="lb-nav absolute top-2 right-2"
+        aria-label="Close">×</button
+      >
+    </figure>
+  </dialog>
+
+  <Footer />
+</Layout>
+
+<style>
+  #cloud {
+    height: clamp(460px, 72vh, 680px);
+  }
+
+  .chip {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 0.25rem 0.8rem;
+    font-size: 0.875rem;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .chip:hover {
+    border-color: var(--accent);
+  }
+  .chip[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .cloud-photo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(clamp(64px, 13vw, 128px) * var(--size));
+    transform: translate(-50%, -50%) rotate(var(--rot)) scale(var(--s, 1));
+    opacity: var(--o, 1);
+    transition:
+      left 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+      top 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.6s;
+  }
+  .cloud-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: 3px solid var(--background);
+    border-radius: 0.4rem;
+    box-shadow: 0 6px 18px -8px rgb(0 0 0 / 0.45);
+    animation: drift var(--dur) ease-in-out infinite;
+    animation-delay: var(--delay);
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s;
+  }
+  .cloud-photo:hover,
+  .cloud-photo:focus-visible {
+    z-index: 50;
+  }
+  .cloud-photo:hover img,
+  .cloud-photo:focus-visible img {
+    animation-play-state: paused;
+    transform: scale(1.35) rotate(calc(var(--rot) * -1));
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+  .cloud-photo.is-dim {
+    pointer-events: none;
+  }
+
+  .cloud-label {
+    position: absolute;
+    z-index: 40;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: var(--background);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.15rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px -6px rgb(0 0 0 / 0.4);
+    transition:
+      left 0.9s,
+      top 0.9s,
+      opacity 0.4s;
+  }
+  .cloud-label:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+  #cloud[data-mode="focus"] .cloud-label {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    33% {
+      translate: 4px -6px;
+    }
+    66% {
+      translate: -5px 3px;
+    }
+  }
+
+  .lb-nav {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: rgb(0 0 0 / 0.55);
+    color: white;
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+  .lb-nav:hover {
+    background: rgb(0 0 0 / 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cloud-photo,
+    .cloud-label {
+      transition: none;
+    }
+    .cloud-photo img {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+
+  function initCloud() {
+    const cloud = document.querySelector<HTMLElement>("#cloud");
+    const desc = document.querySelector<HTMLElement>("#cloud-desc");
+    const dialog = document.querySelector<HTMLDialogElement>("#lightbox");
+    const lbImg = document.querySelector<HTMLImageElement>("#lightbox-img");
+    const lbCaption = document.querySelector<HTMLElement>("#lightbox-caption");
+    if (!cloud || !desc || !dialog || !lbImg || !lbCaption) return;
+
+    const photos = Array.from(
+      cloud.querySelectorAll<HTMLButtonElement>(".cloud-photo")
+    );
+    const labels = Array.from(
+      cloud.querySelectorAll<HTMLButtonElement>(".cloud-label")
+    );
+    const chips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".chip")
+    );
+    const slugs = labels.map(l => l.dataset.group!);
+    const descs = Object.fromEntries(
+      labels.map(l => [l.dataset.group!, l.dataset.desc ?? ""])
+    );
+
+    // Golden-angle spiral: evenly packed points around a centre.
+    const spiral = (j: number, sx: number, sy: number) => {
+      const r = Math.sqrt(j + 0.5);
+      return [Math.cos(j * GOLDEN) * r * sx, Math.sin(j * GOLDEN) * r * sy];
+    };
+    const clamp = (v: number) => Math.min(92, Math.max(8, v));
+
+    function layout(filter: string) {
+      cloud!.dataset.mode = filter === "all" ? "all" : "focus";
+      const k = slugs.length;
+      const centres = Object.fromEntries(
+        slugs.map((slug, i) => {
+          if (k === 1) return [slug, [50, 50]];
+          const a = (i / k) * Math.PI * 2 - Math.PI / 2;
+          return [slug, [50 + Math.cos(a) * 30, 50 + Math.sin(a) * 28]];
+        })
+      );
+
+      labels.forEach(label => {
+        const [cx, cy] = centres[label.dataset.group!];
+        label.style.left = `${cx}%`;
+        label.style.top = `${clamp(cy - 2)}%`;
+      });
+
+      const counts: Record<string, number> = {};
+      photos.forEach(p => {
+        counts[p.dataset.group!] = (counts[p.dataset.group!] ?? 0) + 1;
+      });
+      // Spacing shrinks for big groups so a cluster stays inside its region.
+      const spacing = (n: number, max: number, radius: number) =>
+        Math.min(max, radius / Math.sqrt(n));
+
+      let outer = 0;
+      const others = photos.filter(p => p.dataset.group !== filter).length;
+      photos.forEach(photo => {
+        const group = photo.dataset.group!;
+        const j = Number(photo.dataset.index);
+        let x: number, y: number, s: number, o: number;
+        if (filter === "all") {
+          const [cx, cy] = centres[group];
+          const sp = spacing(counts[group], 6.5, k === 1 ? 36 : 17);
+          const [dx, dy] = spiral(j, sp, sp * 1.2);
+          [x, y, s, o] = [cx + dx, cy + dy, 1, 1];
+        } else if (group === filter) {
+          const sp = spacing(counts[group], 10, 34);
+          const [dx, dy] = spiral(j, sp, sp * 1.2);
+          [x, y, s, o] = [50 + dx, 50 + dy, 1.3, 1];
+        } else {
+          const a = (outer++ / Math.max(others, 1)) * Math.PI * 2;
+          [x, y, s, o] = [
+            50 + Math.cos(a) * 46,
+            50 + Math.sin(a) * 44,
+            0.5,
+            0.2,
+          ];
+        }
+        photo.style.left = `${clamp(x)}%`;
+        photo.style.top = `${clamp(y)}%`;
+        photo.style.setProperty("--s", String(s));
+        photo.style.setProperty("--o", String(o));
+        photo.style.zIndex = String(
+          group === filter ? 30 : 10 - Math.min(j, 9)
+        );
+        photo.classList.toggle("is-dim", o < 1);
+        photo.tabIndex = o < 1 ? -1 : 0;
+      });
+
+      chips.forEach(c =>
+        c.setAttribute("aria-pressed", String(c.dataset.filter === filter))
+      );
+      desc!.textContent = filter === "all" ? "" : (descs[filter] ?? "");
+    }
+
+    chips.forEach(chip =>
+      chip.addEventListener("click", () => layout(chip.dataset.filter!))
+    );
+    labels.forEach(label =>
+      label.addEventListener("click", () => layout(label.dataset.group!))
+    );
+
+    let set: HTMLButtonElement[] = [];
+    let index = 0;
+    const show = (i: number) => {
+      index = (i + set.length) % set.length;
+      const p = set[index];
+      lbImg.src = p.dataset.full ?? "";
+      lbImg.alt = p.dataset.alt ?? "";
+      lbCaption.textContent = `${p.dataset.alt ?? ""} (${index + 1}/${set.length})`;
+    };
+    photos.forEach(photo =>
+      photo.addEventListener("click", () => {
+        set = photos.filter(p => p.dataset.group === photo.dataset.group);
+        show(set.indexOf(photo));
+        dialog.showModal();
+      })
+    );
+    dialog.querySelectorAll<HTMLButtonElement>("[data-step]").forEach(btn =>
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        show(index + Number(btn.dataset.step));
+      })
+    );
+    dialog
+      .querySelector("#lightbox-close")
+      ?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", e => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("keydown", e => {
+      if (e.key === "ArrowRight") show(index + 1);
+      if (e.key === "ArrowLeft") show(index - 1);
+    });
+
+    layout("all");
+  }
+
+  document.addEventListener("astro:page-load", initCloud);
+</script>
