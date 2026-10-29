@@ -1,17 +1,15 @@
 ---
 title: Building and Experimenting with XLeRobot
 description: Learning physical AI by building an AI-controlled robot arm on an IKEA cart.
-# cover: ../../assets/projects/xlerobot/cover.jpg
+cover: ../../assets/projects/xlerobot/vr-teleop.png
 importance: 1
 tags: [robotics, physical-ai, machine-learning]
 ---
 
 > **TL;DR**: Last summer I built [XLeRobot](https://github.com/Vector-Wangel/XLeRobot), an open-source mobile robot with AI-controlled arms that sits on an IKEA cart, to teach myself physical AI. This is an early journey, so here is what I've got so far.
 
-<!-- PHOTO: the finished robot. Save as src/assets/projects/xlerobot/robot.jpg, then uncomment:
-![XLeRobot on its IKEA cart](../../assets/projects/xlerobot/robot.jpg)
-_XLeRobot on its IKEA cart._
--->
+![XLeRobot with a planned Quest 3 telepresence setup](../../assets/projects/xlerobot/vr-teleop.png)
+_XLeRobot on its IKEA cart, and my idea for using it for telepresence with a Quest 3 headset._
 
 ## Why XLeRobot
 
@@ -21,12 +19,33 @@ I wanted to learn physical AI hands-on: getting a model to see the world and mov
 
 ## The Build
 
-<!-- DETAILS: parts list highlights (arms, motors, cameras, compute), how long assembly took, anything you changed from the reference design. -->
+The robot sits on a three-tier IKEA cart with mecanum wheels, two arms, and a head that holds an Intel RealSense D435 depth camera on a two-motor gimbal.
 
-<!-- PHOTO: the build in progress. Save as src/assets/projects/xlerobot/build.jpg, then uncomment:
-![Assembling the arms and wiring](../../assets/projects/xlerobot/build.jpg)
-_Assembling the arms and wiring._
--->
+Most of the structural parts are 3D printed on a Prusa MK4. The original XLeRobot neck barely fits on the MK4's bed, even placed diagonally, so I printed MakerMods' improved neck instead, which splits it into two pieces that fit comfortably.
+
+![Original XLeRobot neck part in PrusaSlicer](../../assets/projects/xlerobot/neck-xlerobot.png)
+_The original XLeRobot neck (v0.3.0) only just fits across the MK4's bed._
+
+![MakerMods improved neck parts in PrusaSlicer](../../assets/projects/xlerobot/neck-makermods.png)
+_The MakerMods neck, split into two halves sized for the MK4._
+
+<!-- DETAILS: how long assembly took, other changes from the reference design. -->
+
+## Bill of Materials
+
+| Part                      | Qty          | Notes                                                |
+| ------------------------- | ------------ | ---------------------------------------------------- |
+| IKEA cart (three-tier)    | 1            | Mobile base frame                                    |
+| Mecanum wheels and motors | <!-- qty --> | Holonomic drive                                      |
+| Robot arms                | 2            | <!-- model, e.g. SO-101 -->                          |
+| Intel RealSense D435      | 1            | Depth/stereo camera in the head                      |
+| Head gimbal motors        | 2            | Pan and tilt                                         |
+| 3D-printed parts          | —            | Printed on a Prusa MK4, including the MakerMods neck |
+| Compute                   | 1            | <!-- e.g. laptop or mini PC -->                      |
+| Battery / power           | 1            | <!-- battery model -->                               |
+| Meta Quest 3              | 1            | Optional, for telepresence                           |
+
+<!-- DETAILS: correct quantities and models, rough total cost. -->
 
 ## Challenges as Puzzles
 
@@ -36,7 +55,7 @@ Plenty went wrong, and most of it felt more like a puzzle than a setback. Some c
 
 ## AI Control
 
-<!-- DETAILS: how the arm is controlled (teleoperation, data collection, the policy or model you trained, e.g. LeRobot), and what it can do so far. -->
+<!-- DETAILS: how you control it today, data collection and any policy you trained (e.g. with LeRobot), and what it can do so far. -->
 
 <!-- VIDEO/GIF: the arm doing a task. Save as src/assets/projects/xlerobot/demo.gif, then uncomment:
 ![XLeRobot arm running a learned task](../../assets/projects/xlerobot/demo.gif)
@@ -45,6 +64,11 @@ _The arm running a learned task._
 
 ## What's Next
 
-This is still the start. Next I want to keep experimenting with what the robot can learn to do.
+This is still the start. One idea I want to try is using XLeRobot for telepresence: controlling it remotely with a Meta Quest 3 so it feels like being there in person. The diagram at the top shows how it could work:
 
-<!-- DETAILS: concrete next steps. -->
+- **Vision:** the depth camera streams a stereoscopic view, so the operator sees what the robot sees in 3D. The robot uses an Intel RealSense D435 today, but a newer camera like the ZED Mini could work too.
+- **Head:** the headset's IMU tracks the operator's head, and the robot's two-motor gimbal copies it.
+- **Arms:** the Quest controllers drive the two arms.
+- **Wheels:** the mecanum wheels let the robot move holonomically, so it can sidestep in ways a two-wheel base can't. Keyboard control (WASD) is the simplest option, but makes it hard to drive the arms at the same time. A motion tracker like a Kinect could map leg movements to the wheels instead, leaving both hands free for the arms.
+
+<!-- DETAILS: other next steps. -->
