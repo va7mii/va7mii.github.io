@@ -33,19 +33,20 @@ _The MakerMods neck, split into two halves sized for the MK4._
 
 ## Bill of Materials
 
-| Part                      | Qty          | Notes                                                |
-| ------------------------- | ------------ | ---------------------------------------------------- |
-| IKEA cart (three-tier)    | 1            | Mobile base frame                                    |
-| Mecanum wheels and motors | <!-- qty --> | Holonomic drive                                      |
-| Robot arms                | 2            | <!-- model, e.g. SO-101 -->                          |
-| Intel RealSense D435      | 1            | Depth/stereo camera in the head                      |
-| Head gimbal motors        | 2            | Pan and tilt                                         |
-| 3D-printed parts          | —            | Printed on a Prusa MK4, including the MakerMods neck |
-| Compute                   | 1            | <!-- e.g. laptop or mini PC -->                      |
-| Battery / power           | 1            | <!-- battery model -->                               |
-| Meta Quest 3              | 1            | Optional, for telepresence                           |
+| Part                         | Qty | Notes                                                        |
+| ---------------------------- | --- | ------------------------------------------------------------ |
+| IKEA RÅSKOG cart             | 1   | Three-tier mobile base frame                                 |
+| Mecanum wheels               | 4   | Holonomic drive <!-- link to come -->                        |
+| Feetech ST3215 servos (12V)  | 16  | 6 + 6 + 4                                                    |
+| Raspberry Pi 5 (8GB)         | 1   | With a 128GB NVMe SSD, reused from an old project            |
+| Anker SOLIX C300             | 1   | Portable power station                                       |
+| Intel RealSense D435         | 1   | Depth/stereo camera in the head                              |
+| Hand cameras                 | 2   | One on each arm                                              |
+| 5264 connectors + 22AWG wire | —   | Crimped with an Engineer PA-09, parts from Lee's Electronics |
+| 3D-printed parts             | —   | Printed on a Prusa MK4, including the MakerMods neck         |
+| Meta Quest 3                 | 1   | Optional, for telepresence                                   |
 
-<!-- DETAILS: correct quantities and models, rough total cost. -->
+<!-- DETAILS: rough total cost. -->
 
 ## Challenges as Puzzles
 
