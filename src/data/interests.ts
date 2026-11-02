@@ -1,5 +1,5 @@
 // The three research interests shown on the home page.
-// Edit the text here; `phrase` is what the typing animation cycles through.
+// Edit the text here; `phrase` is the hero line shown when its card is hovered.
 export const interests = [
   {
     key: "robotics",
