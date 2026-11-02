@@ -53,12 +53,12 @@ const projects = getSortedProjects(await getCollection("projects"));
           <span class="sr-only">{interests.map(i => i.phrase).join("; ")}.</span
           >
           <span
-            id="typed"
+            id="hero-phrase"
             aria-hidden="true"
             class="text-accent font-semibold"
             data-phrases={JSON.stringify(interests.map(i => i.phrase))}
             >{interests[0].phrase}</span
-          ><span id="caret" class="text-accent" aria-hidden="true">▍</span>
+          >.
         </p>
         <p class="mt-4">
           More
@@ -180,99 +180,34 @@ const projects = getSortedProjects(await getCollection("projects"));
   <Footer />
 </Layout>
 
-<style>
-  #caret {
-    animation: blink 1s step-end infinite;
-  }
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #caret {
-      display: none;
-    }
-  }
-</style>
-
 <script>
-  // Typing animation for the hero line. Hovering or focusing an interest card
-  // jumps to that card's phrase; cards highlight while their phrase shows.
-  let timer: ReturnType<typeof setTimeout> | undefined;
-
-  function startTyping() {
-    clearTimeout(timer);
-    const el = document.querySelector<HTMLElement>("#typed");
+  // Hero line: shows the first interest's phrase. Hovering or focusing an
+  // interest card swaps in that card's phrase and highlights the card.
+  function setupHero() {
+    const el = document.querySelector<HTMLElement>("#hero-phrase");
     if (!el) return;
     const phrases: string[] = JSON.parse(el.dataset.phrases ?? "[]");
     const cards = document.querySelectorAll<HTMLElement>(".interest-card");
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
     if (phrases.length === 0) return;
 
-    let index = 0;
-    let chars = phrases[0].length;
-    let deleting = false;
-    let pinned = false;
-
-    const highlight = () =>
-      cards.forEach(card =>
-        card.classList.toggle("is-active", Number(card.dataset.topic) === index)
-      );
-
     const show = (i: number) => {
-      index = i;
-      chars = phrases[i].length;
-      deleting = false;
       el.textContent = phrases[i];
-      highlight();
+      cards.forEach(card =>
+        card.classList.toggle("is-active", Number(card.dataset.topic) === i)
+      );
     };
 
     cards.forEach(card => {
-      const pick = () => {
-        pinned = true;
-        clearTimeout(timer);
-        show(Number(card.dataset.topic));
-      };
-      const release = () => {
-        pinned = false;
-        clearTimeout(timer);
-        if (!reduced) timer = setTimeout(tick, 2500);
-      };
+      const pick = () => show(Number(card.dataset.topic));
       card.addEventListener("mouseenter", pick);
       card.addEventListener("focus", pick);
       card.addEventListener("click", pick);
-      card.addEventListener("mouseleave", release);
-      card.addEventListener("blur", release);
     });
 
-    highlight();
-    if (reduced) return;
-
-    function tick() {
-      if (pinned) return;
-      const phrase = phrases[index];
-      if (!deleting && chars === phrase.length) {
-        deleting = true;
-        timer = setTimeout(tick, 2200);
-        return;
-      }
-      if (deleting && chars === 0) {
-        deleting = false;
-        index = (index + 1) % phrases.length;
-        highlight();
-      }
-      chars += deleting ? -1 : 1;
-      el!.textContent = phrases[index].slice(0, chars);
-      timer = setTimeout(tick, deleting ? 25 : 55);
-    }
-
-    timer = setTimeout(tick, 2200);
+    show(0);
   }
 
-  document.addEventListener("astro:page-load", startTyping);
+  document.addEventListener("astro:page-load", setupHero);
 
   document.addEventListener("astro:page-load", () => {
     const indexLayout = (document.querySelector("#main-content") as HTMLElement)
