@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
@@ -30,6 +30,8 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const homePath = getRelativeLocaleUrl(locale, "");
 const projects = getSortedProjects(await getCollection("projects"));
+const about = await getEntry("pages", "about");
+const AboutContent = about ? (await render(about)).Content : null;
 ---
 
 <Layout>
@@ -64,7 +66,7 @@ const projects = getSortedProjects(await getCollection("projects"));
           More
           <LinkButton
             class="hover:text-accent underline decoration-dashed underline-offset-4"
-            href={getRelativeLocaleUrl(locale, "about")}
+            href="#about"
           >
             about me
           </LinkButton>, or see my
@@ -108,6 +110,17 @@ const projects = getSortedProjects(await getCollection("projects"));
         class="w-40 self-center rounded-lg sm:mt-8 sm:w-56 sm:self-start"
       />
     </section>
+
+    {
+      AboutContent && (
+        <section id="about" class="border-border border-b pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">{t.nav.about}</h2>
+          <div class="app-prose mt-4 max-w-none">
+            <AboutContent />
+          </div>
+        </section>
+      )
+    }
 
     <Interests />
 

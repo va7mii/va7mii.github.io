@@ -7,7 +7,7 @@ export default defineAstroPaperConfig({
     url: "https://va7mii.github.io/",
     title: "Kevin Zhang",
     description:
-      "Kevin (He-Jun) Zhang: integrated engineering student at UBC, robotics and AI tinkerer, amateur radio operator (VA7MII), snowboard instructor.",
+      "Kevin Zhang: ECE @ UBC, robotics and AI tinkerer, snowboard instructor.",
     author: "Kevin Zhang",
     profile: "https://va7mii.github.io/",
     ogImage: "default-og.jpg",

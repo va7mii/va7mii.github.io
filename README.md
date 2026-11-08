@@ -21,7 +21,7 @@ For a step-by-step guide to adding posts, projects and pages, changing the icon,
 | ------------------------ | ------------------------------------------ |
 | Site title, socials, URL | `astro-paper.config.ts`                    |
 | Home page                | `src/pages/index.astro`                    |
-| About / Talks text       | `src/content/pages/about.md`, `talks.md`   |
+| Home About / Talks text  | `src/content/pages/about.md`, `talks.md`   |
 | Blog posts               | `src/content/posts/*.md`                   |
 | Projects                 | `src/content/projects/*.md`                |
 | Images used in content   | `src/assets/` (optimized at build time)    |

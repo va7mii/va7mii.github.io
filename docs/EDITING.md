@@ -63,7 +63,7 @@ Text-only pages are easiest copied from Talks:
 3. Add a nav link in `src/components/Header.astro`: copy one of the `<li>` blocks and change the path and label. The labels live in `src/i18n/lang/en.ts` (`nav`), or just type plain text.
 
 Other places to edit:
-- About page text: `src/content/pages/about.md`
+- About section on the home page: `src/content/pages/about.md`
 - Home intro paragraph: `src/pages/index.astro` (the `hero` section)
 - Name, socials, site URL: `astro-paper.config.ts`
 - CV: replace `public/assets/pdf/Resume_Kevin_Zhang.pdf`
@@ -83,7 +83,7 @@ Recommended first: **interactive islands**. Astro can embed small React, Svelte 
 
 Other options:
 - **GitHub activity:** pull your latest repos and stars at build time with the GitHub API. Add a scheduled GitHub Action so the site rebuilds daily and stays fresh.
-- **Comments on posts:** Giscus, which stores comments in GitHub Discussions. There's an official AstroPaper guide.
+- **Comments on posts:** Giscus, which stores comments in GitHub Discussions. There's an official AstroPaper .
 - **Motion polish:** page transitions are already on (Astro View Transitions). You could add hover and scroll-in animations with a little CSS.
 - **Embeds:** Strava/Garmin snowboard stats, a photo gallery, or MDX posts with live demos such as interactive plots of your Lambert W talk.
 - **Analytics:** Umami, Plausible or GoatCounter (privacy-friendly; one script tag in `src/layouts/Layout.astro`).
