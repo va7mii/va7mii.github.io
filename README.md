@@ -4,7 +4,7 @@ Kevin Zhang's personal site, built with [Astro](https://astro.build/) on the [As
 
 ## Develop
 
-Requires Node 22.12+ and pnpm.
+Requires Node 22.12+ (24 recommended) and pnpm. New to this? See the setup steps at the top of [docs/EDITING.md](docs/EDITING.md).
 
 ```sh
 pnpm install
