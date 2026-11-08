@@ -1,11 +1,27 @@
 # Editing your Astro site
 
-Run `npm run dev` (or `pnpm dev`) and changes show up live at http://localhost:4321. Push to `main` to publish.
+## 0. Test the site on your computer
+
+The site is built with Astro, which runs on Node.js. (The old Jekyll command `bundle exec jekyll serve` no longer applies.)
+
+**One-time setup**
+1. Install Node.js LTS (version 24) from https://nodejs.org.
+2. Install pnpm: `npm install -g pnpm` (add `sudo` in front on Mac/Linux if you get a permission error; on Windows `winget install pnpm.pnpm` also works). Check with `pnpm --version`.
+3. In the repo folder, run `pnpm install` to download the site's dependencies. Re-run it whenever `package.json` changes.
+
+**Every time**
+- `pnpm dev`, then open http://localhost:4321. Changes show up live as you save. Stop it with Ctrl+C.
+- To check the real production build: `pnpm build`, then `pnpm preview`. The search page only works this way.
+- Before pushing, `pnpm format` tidies formatting and `pnpm lint` checks for mistakes.
+
+`npm run dev` works too. pnpm is just a faster npm, and it's what the repo's lockfile (`pnpm-lock.yaml`) and the GitHub deploy use.
+
+**Publish:** push to `main` and GitHub Actions rebuilds the live site.
 
 ## 1. Add content
 
 ### Blog post
-Create `src/content/posts/my-post.md`. The file name becomes the URL (`/posts/my-post/`).
+Easiest: copy `src/content/posts/_template.md` to `src/content/posts/my-post.md` and fill it in (files starting with `_` are never published). Or create `src/content/posts/my-post.md` from scratch. The file name becomes the URL (`/posts/my-post/`).
 
 ```md
 ---
